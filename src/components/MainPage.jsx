@@ -1,12 +1,14 @@
 import Logo from "./Logo.jsx"
 import ItemMenu from "./ItemMenu.jsx"
 import PantallaInfoSolicitud from "./PantallaInfoSolicitud.jsx"
+import SongItem from "./SongItem.jsx"
 import searchIcon from "../assets/search.svg"
 import playListIcon from "../assets/playlist.svg"
 import albumIcon from "../assets/album.svg"
 import songIcon from "../assets/songIcon.svg"
 import artistaIcon from "../assets/artistIcon.svg"
 import songNotFoundImg from "../assets/songNotFoundImg.svg"
+
 function MainPage(){
     return(
         <div className="w-screen h-screen text-white bg-gray-900">
@@ -28,12 +30,13 @@ function MainPage(){
                     
                 </nav>
                 <main className="w-4/5 pt-5 pl-6">
-                    <div className="border">
-                        <PantallaInfoSolicitud 
+                    <div className="">
+{/*                         <PantallaInfoSolicitud 
                             errorTitulo="No se encontró la canción solicitada"
                             imgError={songNotFoundImg}
                             descripcionError="La cancion no se encontró"
-                        />
+                        /> */}
+                        <SongItem nombre="Prueba" album="Prueba Album" duracion="1:30" />
                     </div>
                 </main>
             </div>           

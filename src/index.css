@@ -9,3 +9,23 @@
   font-variation-settings:
     "slnt" 0; */
 }
+.loadSpinnerContainer{
+  transform: translate(-50%, -50%);
+}
+
+.spinner{
+  border-top: 4px rgb(0, 123, 255) solid;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  animation: spin 1000ms linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
