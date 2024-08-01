@@ -30,7 +30,7 @@ function reducer(state,action){
     }
 }
 
-function useFetch(url,options={},msjError="Error al realizar la peticion"){
+function useFetch(mainUrl,options={},msjError="Error al realizar la peticion"){
 
     const [state,dispatch] = useReducer(reducer,{
         data : null,
@@ -38,10 +38,10 @@ function useFetch(url,options={},msjError="Error al realizar la peticion"){
         isError : false
     })
     
-    const doFetch = (newOptions) => {
+    const doFetch = (newOptions,alternativeUrl = mainUrl) => {
         dispatch({ type: ACTIONS.FETCH_INIT });
 
-        fetch(url,{...options,...newOptions})
+        fetch(alternativeUrl,{...options,...newOptions})
         .then((response)=>{
             if(response.ok){
                 return response.json()
@@ -52,7 +52,7 @@ function useFetch(url,options={},msjError="Error al realizar la peticion"){
             dispatch({type: ACTIONS.FETCH_SUCCESS, 
                     payload :{data}})
         })
-        .catch((e)=>{
+        .catch(()=>{
             dispatch({type:ACTIONS.FETCH_FAILURE})
             })
     }

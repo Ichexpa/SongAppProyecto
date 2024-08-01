@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import MainPage from './MainPage.jsx'
 import "../index.css"
-import RutaNoDefinida from './RutaNoDefinida.jsx'
-import LoginPage from './LoginPage.jsx'
-ReactDOM.createRoot(document.getElementById('root')).render(  
-    <LoginPage />
+import { RouterProvider } from 'react-router-dom'
+import router from '../routes/Router.jsx'
+import { AuthProvider } from '../contexts/AuthContext.jsx'
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <AuthProvider>
+        <RouterProvider router={router}/>
+    </AuthProvider>     
 )
