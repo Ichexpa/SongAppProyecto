@@ -1,11 +1,11 @@
 import "../index.css"
 import Login from "./Login.jsx"
 import Logo from "./Logo.jsx"
-import Album from "./Album.jsx"
+import AlbumLoginPage from "./AlbumLoginPage.jsx"
 /* import InformacionCancion from "./InformacionCancion.jsx" */
 import { useEffect } from "react"
 import useFetch from "../hooks/useFetch.js"
-
+import LoadingSpinner from "./LoadingSpinner.jsx"
 
 function LoginPage(){
     const [{data :dataAlbum, isLoading :loadingAlbum, isError :errorAlbum},fetchAlbum] = useFetch("https://sandbox.academiadevelopers.com/harmonyhub/albums/")
@@ -26,9 +26,7 @@ function LoginPage(){
                         
                         {loadingAlbum &&
                         <div className="mt-16 p-4 w-full flex justify-center">
-                              <div className="loadSpinnerContainer">
-                                <div className="spinner"></div>
-                              </div>
+                            <LoadingSpinner/>
                         </div>
                         }
                         
@@ -37,7 +35,7 @@ function LoginPage(){
                                 {
                                     dataAlbum.results.map((album)=>(
                                         <div key={album.id} className="border rounded-lg">
-                                            <Album infoAlbum = {album}/>
+                                            <AlbumLoginPage infoAlbum = {album}/>
                                         </div>
                                     ))  
                                 }

@@ -2,7 +2,7 @@ import disk from "../assets/disk.png"
 import userSpeakIcon from "../assets/userSpeakIcon.svg"
 import { useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-function Album({infoAlbum}){
+function AlbumLoginPage({infoAlbum}){
     const [{data :dataArtist, isLoading :loadingArtist, isError : errorArtist},fetchArtist] = useFetch(`https://sandbox.academiadevelopers.com/harmonyhub/artists/${infoAlbum.artist}/`);
     useEffect(()=>fetchArtist(),[])    
     return(
@@ -32,4 +32,4 @@ function Album({infoAlbum}){
         </div>
     );    
 }
-export default Album;
+export default AlbumLoginPage;
