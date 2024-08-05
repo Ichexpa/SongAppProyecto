@@ -4,34 +4,33 @@ import LoadingSpinner from "./LoadingSpinner.jsx"
 import { useEffect } from "react"
 import Paginador from "./Paginador.jsx"
 import { useSearchParams } from "react-router-dom";
-import { usePaginadorContext } from "../contexts/PaginadorContext.jsx"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 function ListSongs({idAlbum=""}){
+    console.log("LIST SONGS RENDERIZADA")
     let urlFetch="https://sandbox.academiadevelopers.com/harmonyhub/songs/"
-    const  [{data : songData,isLoading,isError},doFetch] = useFetch()     
-    const {paginaActual,setPaginaActual} = usePaginadorContext()
+    const  [{data : songData,isLoading,isError},doFetch] = useFetch()      
     const [searchParams] = useSearchParams()
     const paginaParam = searchParams.get("page")
+    const [pageNumber,setPageNumber] = useState(paginaParam ?? 1)
     const navigator = useNavigate()
-    /* if(paginaParam){
-       setPaginaActual(paginaParam)
-    } */
-    useEffect(()=>{
-        navigator(`?page=${paginaActual}`)
-        urlFetch += `?page=${paginaActual}`
-        
-        console.log(paginaActual)    
-    },[paginaActual])
-        
+    const pageNumberValueHandler = (valor)=>{
+        setPageNumber(valor)
+    }
     if(idAlbum){
         urlFetch = `https://sandbox.academiadevelopers.com/harmonyhub/albums/${idAlbum}/songs/`
-    }
-    
-    useEffect(()=>{
-        console.log(urlFetch)
+    }  /* 
+    if(paginaParam){
+        console.log("Pagina param", paginaParam)
+    } */
+
+    useEffect(()=>{     
+        navigator(`?page=${pageNumber}`)
+        urlFetch += `?page=${pageNumber}`
         doFetch({},urlFetch);
         
-    },[idAlbum,paginaActual])
+    },[idAlbum,pageNumber])
+    
     if(songData){
         console.log(songData)
     }
@@ -60,9 +59,11 @@ function ListSongs({idAlbum=""}){
                 }
                 
             </div>
+            {songData &&
             <div className="mt-2">
-                <Paginador/>
+                <Paginador paginaHandler={pageNumberValueHandler} isNext= {songData.next ? true : false} defaultValue = {paginaParam} />
             </div>
+            }
         </div> 
     )
 }

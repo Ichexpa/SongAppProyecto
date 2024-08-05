@@ -10,7 +10,6 @@ import AlbumSongList from "../components/AlbumSongList.jsx"
 import { AuthProvider } from "../contexts/AuthContext.jsx"
 import Layout from "./Layout"
 import AlbumDetails from "../components/AlbumDetails.jsx"
-import { PaginadorProvider } from "../contexts/PaginadorContext.jsx"
 const Router = createBrowserRouter([
     {
         path: "/login",
@@ -18,9 +17,8 @@ const Router = createBrowserRouter([
     },
     {
         //Agregar proteccion cuando sea funcional
-        element : (<PaginadorProvider>
-                    <Layout/>
-                   </PaginadorProvider>
+        element : (
+                    <Layout/>                   
                 )
                    /* (<ProtectedRoute>
                         <Layout/>          
