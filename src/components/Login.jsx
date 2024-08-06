@@ -1,14 +1,17 @@
-import { AuthContext } from "../contexts/AuthContext.jsx"
+import { useAuth } from "../contexts/AuthContext.jsx"
 import { useContext,useEffect,useRef } from "react"
 import useFetch from "../hooks/useFetch.js"
-import { useNavigate } from "react-router-dom"
+import { redirect, useNavigate } from "react-router-dom"
+import { data } from "autoprefixer"
 
 
 function Login(){
     const username = useRef("")
     const password = useRef("")
-    const {actions} = useContext(AuthContext)
-    const [{data : dataToken,isLoading,isError},doFetch] = useFetch("https://sandbox.academiadevelopers.com/api-auth/")
+    const {login} = useAuth("actions")
+    /* const {token,id_user} = useAuth("state") */
+    const [{data : dataToken,isLoading,isError}, doFetchToken] = useFetch("https://sandbox.academiadevelopers.com/api-auth/")
+    const [{data : dataUser,isLoading: isLoadingDataUser,isError : isErrorDataUser},doFetchUser] = useFetch("https://sandbox.academiadevelopers.com/users/profiles/profile_data/")
     const redireccion = useNavigate()
     function handleSubmit(e){
         const credentials = {
@@ -16,13 +19,14 @@ function Login(){
             password: password.current
             };
         const bodyJSON = JSON.stringify(credentials)
-        doFetch({method : "POST",
+        doFetchToken({method : "POST",
                 headers : {
                     'Content-Type': 'application/json',
                 },
                 body : bodyJSON
             }) 
     }
+
     function handleOnChangeInput(e){
         if(e.target.name == "user-name"){
             username.current = e.target.value
@@ -34,11 +38,23 @@ function Login(){
     
     useEffect(()=>{
         if(dataToken){
-            actions.login(dataToken.token)
-            redireccion("/");
+            login(dataToken.token)
+            doFetchUser(
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Token ${dataToken.token}`,
+                    },  
+                }
+            )
         }
     },[dataToken])
-
+    useEffect(()=>{
+        if(dataUser){
+            login(dataToken.token,dataUser.user__id)
+            redireccion("/")           
+        }
+    },[dataUser])
     return(
         <div className="flex w-5/6 mx-auto flex-col p-2 text-xl">
             <h1 className="text-3xl font-semibold my-2">Iniciar Sesión</h1>

@@ -6,8 +6,10 @@ import Paginador from "./Paginador.jsx"
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { useAuth } from "../contexts/AuthContext.jsx"
 function ListSongs({idAlbum=""}){
-    console.log("LIST SONGS RENDERIZADA")
+    const {token,id_user} = useAuth("state")
+    console.log(token , id_user)
     let urlFetch="https://sandbox.academiadevelopers.com/harmonyhub/songs/"
     const  [{data : songData,isLoading,isError},doFetch] = useFetch()      
     const [searchParams] = useSearchParams()
@@ -19,10 +21,7 @@ function ListSongs({idAlbum=""}){
     }
     if(idAlbum){
         urlFetch = `https://sandbox.academiadevelopers.com/harmonyhub/albums/${idAlbum}/songs/`
-    }  /* 
-    if(paginaParam){
-        console.log("Pagina param", paginaParam)
-    } */
+    } 
 
     useEffect(()=>{     
         navigator(`?page=${pageNumber}`)

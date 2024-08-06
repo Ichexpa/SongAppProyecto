@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 
 import { useRef } from "react";
 function Paginador({paginaHandler,isNext=true,defaultValue=1}){   
-    console.log("PAGINADOR RENDERIZADO")
-    console.log("Valor recibido" + defaultValue)
-    console.log("El siguiente es valido", isNext)
     let pageNumber = useRef() 
     let isVisible = useRef(defaultValue > 1)
     function changeVisibleAnchor(valuePage){
@@ -14,9 +11,7 @@ function Paginador({paginaHandler,isNext=true,defaultValue=1}){
     }
     function nextHandler(){
         let valuePage = Number(pageNumber.current.innerText) + 1
-        console.log("valor value page " + valuePage)  
         pageNumber.current.innerText = valuePage
-        console.log("Valor de nextHAndler" +valuePage)
         changeVisibleAnchor(valuePage)
         paginaHandler(valuePage)
     }
@@ -26,19 +21,6 @@ function Paginador({paginaHandler,isNext=true,defaultValue=1}){
         changeVisibleAnchor(valuePage)
         paginaHandler(valuePage)  
     }
-    /* 
-    useEffect(()=>{
-        if(paginaParam){
-            console.log("Hola",paginaParam)
-            setPaginaActual(Number(paginaParam))
-            
-        }
-    },[]) */
-/* 
-    useEffect(()=>{
-        console.log("valor de la pagina Actual",paginaActual)  
-        paginaHandler(paginaActual)
-    },[paginaActual]) */
     
 
     return(

@@ -1,12 +1,21 @@
 import { Outlet } from "react-router-dom"
 import Logo from "../components/Logo.jsx";
 import SideBar from "../components/SideBar.jsx";
+import ProfileOptions from "../components/ProfileOptions.jsx";
+
 function Layout(){
     return(  
           
         <div className="w-screen min-h-screen text-white bg-gray-900">
             <header className="w-9/12 mx-auto">
-                <Logo/>
+                <div className="flex flex-row justify-between items-center w-full">
+                    <div className="p-2">
+                        <Logo/>
+                    </div>
+                    <div className="p-2">
+                        <ProfileOptions/>
+                    </div>
+                </div>
             </header>
             <div className="w-9/12 mx-auto flex flex-row">
                 <nav className="mt-4 w-1/5 flex flex-col gap-2 h-full">
