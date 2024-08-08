@@ -1,6 +1,6 @@
 import PlayListItem from "./PlayListItem.jsx"
-import useFetch from "../hooks/useFetch.js"
-import LoadingSpinner from "../components/LoadingSpinner.jsx"
+import useFetch from "../../hooks/useFetch.js"
+import LoadingSpinner from "../Utils/LoadingSpinner.jsx"
 import { useEffect } from "react"
 export default function PlayList(){
     //Despues verificar playlist privadas y publicas

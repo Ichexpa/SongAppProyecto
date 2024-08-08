@@ -1,9 +1,8 @@
-import ArtistaItem from "./ArtistaItem"
-import albumMusicIcon from "../assets/albumMusic.svg"
-import mostrarMasIcon from "../assets/mostrarMasIcon.svg"
-import { useState } from "react"
+import ArtistaItem from "../ArtistaComponents/ArtistaItem"
+import albumMusicIcon from "../../assets/albumMusic.svg"
+import mostrarMasIcon from "../../assets/mostrarMasIcon.svg"
 import { useNavigate } from "react-router-dom"
-import { Outlet } from "react-router-dom"
+
 function AlbumItem({idAlbum="",title,year,portadaImg,artista_id}){ 
     const navigate = useNavigate()
     function albumOpenHandler(){

@@ -1,5 +1,5 @@
-import nextIcon from "../assets/sigPagina.svg"
-import backIcon from "../assets/paginaAnt.svg"
+import nextIcon from "../../assets/sigPagina.svg"
+import backIcon from "../../assets/paginaAnt.svg"
 import { useEffect, useState } from "react";
 
 import { useRef } from "react";

@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
-import ListSongs from "./ListSongs";
-import LoadingSpinner from "./LoadingSpinner";
+import useFetch from "../../hooks/useFetch";
+import ListSongs from "../SongComponents/ListSongs";
+import LoadingSpinner from "../Utils/LoadingSpinner";
 import { useEffect } from "react";
-import EtiquetaComponent from "./EtiquetaComponent";
-import albumMusicIcon from "../assets/albumMusic.svg"
+import EtiquetaComponent from "../Utils/EtiquetaComponent";
+import albumMusicIcon from "../../assets/albumMusic.svg"
 export default function AlbumDetails(){
     const params = useParams()
     const idAlbum = params.idAlbum

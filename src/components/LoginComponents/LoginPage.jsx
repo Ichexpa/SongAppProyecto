@@ -1,11 +1,10 @@
-import "../index.css"
 import Login from "./Login.jsx"
-import Logo from "./Logo.jsx"
-import AlbumLoginPage from "./AlbumLoginPage.jsx"
+import Logo from "../Utils/Logo.jsx"
+import AlbumLoginPage from "../AlbumComponents/AlbumLoginPage.jsx"
 /* import InformacionCancion from "./InformacionCancion.jsx" */
 import { useEffect } from "react"
-import useFetch from "../hooks/useFetch.js"
-import LoadingSpinner from "./LoadingSpinner.jsx"
+import useFetch from "../../hooks/useFetch.js"
+import LoadingSpinner from "../Utils/LoadingSpinner.jsx"
 
 function LoginPage(){
     const [{data :dataAlbum, isLoading :loadingAlbum, isError :errorAlbum},fetchAlbum] = useFetch("https://sandbox.academiadevelopers.com/harmonyhub/albums/")

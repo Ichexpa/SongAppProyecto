@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-import useSpeakIcon from "../assets/userSpeakIcon.svg"
-import useFetch from "../hooks/useFetch"
+import useSpeakIcon from "../../assets/userSpeakIcon.svg"
+import useFetch from "../../hooks/useFetch"
 import { useEffect } from "react"
 
 export default function ArtistaItem({idArtista=""}){

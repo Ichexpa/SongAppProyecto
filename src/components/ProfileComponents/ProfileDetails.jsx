@@ -1,12 +1,12 @@
-import profileIcon from "../assets/profileIcon.svg"
-import editIcon from "../assets/editIcon.svg"
+import profileIcon from "../../assets/profileIcon.svg"
+import editIcon from "../../assets/editIcon.svg"
 import {useEffect, useRef } from "react"
 import { useState } from "react";
 import ItemInfoProfileUser from "./ItemInfoProfileUser.jsx";
-import useFetch from "../hooks/useFetch.js"
-import { useAuth } from "../contexts/AuthContext.jsx";
-import LoadingSpinner from "./LoadingSpinner.jsx"
-import { useClickEditContext } from "../contexts/StateEditingContext.jsx";
+import useFetch from "../../hooks/useFetch.js"
+import { useAuth } from "../../contexts/AuthContext.jsx";
+import LoadingSpinner from "../Utils/LoadingSpinner.jsx"
+import { useClickEditContext } from "../../contexts/StateEditingContext.jsx";
 
 function ProfileDetails(){
     const API_URL_BASE = `${import.meta.env.VITE_API_URL_SANDBOX}`
@@ -61,7 +61,6 @@ function ProfileDetails(){
         }
         /* console.log(body) */
        if(refImagen.current.files[0]){
-            console.log("Se volvio a ejecutar aqui")
             const formData = new FormData()
             formData.append("first_name", dataBody.first_name)
             formData.append("last_name", dataBody.last_name)

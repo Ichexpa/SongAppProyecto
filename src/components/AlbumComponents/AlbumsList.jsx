@@ -1,10 +1,7 @@
 import { useEffect } from "react"
-import useFetch from "../hooks/useFetch"
+import useFetch from "../../hooks/useFetch"
 import AlbumItem from "./AlbumItem"
-import LoadingSpinner from "./LoadingSpinner"
-import ModalSongList from "./ModalSongList"
-import { useState } from "react"
-import mostrarMasIcon from "../assets/mostrarMasIcon.svg"
+import LoadingSpinner from "../Utils/LoadingSpinner"
 
 function AlbumList({idAlbum=""}){
     const [{data:dataAlbums, isLoading, isError},doFetch] = useFetch("https://sandbox.academiadevelopers.com/harmonyhub/albums/")

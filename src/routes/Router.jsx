@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router-dom"
-import LoginPage from "../components/LoginPage.jsx"
+import LoginPage from "../components/LoginComponents/LoginPage.jsx"
 import NotFound404 from "../components/NotFound404"
 import MainPage from "../components/MainPage.jsx"
-import PlayList from "../components/PlayList.jsx"
-import AlbumsList from "../components/AlbumsList.jsx"
-import ArtistasList from "../components/ArtistasList.jsx"
+import PlayList from "../components/PlayListComponents/PlayList.jsx"
+import AlbumsList from "../components/AlbumComponents/AlbumsList.jsx"
+import ArtistasList from "../components/ArtistaComponents/ArtistasList.jsx"
 import ProtectedRoute from "./AuthRoutes.jsx"
+import ListSongs from "../components/SongComponents/ListSongs.jsx"
 import Layout from "./Layout"
-import AlbumDetails from "../components/AlbumDetails.jsx"
-import ProfileDetails from "../components/PerfilDetails.jsx"
+import AlbumDetails from "../components/AlbumComponents/AlbumDetails.jsx"
+import ProfileDetails from "../components/ProfileComponents/ProfileDetails.jsx"
 import {ContextClickEditProvider} from "../contexts/StateEditingContext.jsx"
 const Router = createBrowserRouter([
   {
@@ -21,14 +22,13 @@ const Router = createBrowserRouter([
         <Layout />
       </ProtectedRoute>
     ),
-    children: [
+    children: [      
       {
-        path: "/",
-        element: <MainPage />
-      },
-      {
-        path: "/playlists",
-        element: <PlayList />
+        index : true,
+        element : (<ContextClickEditProvider>
+                      <ProfileDetails/>
+                   </ContextClickEditProvider>)
+
       },
       {
         path : "/profile",
@@ -36,6 +36,10 @@ const Router = createBrowserRouter([
                       <ProfileDetails/>
                    </ContextClickEditProvider>)
 
+      },
+      {
+        path: "/playlists",
+        element: <PlayList />
       },
       {
         path: "/albums",
@@ -56,7 +60,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/canciones",
-        element: <MainPage />
+        element: <ListSongs/>
       }
     ]
   },

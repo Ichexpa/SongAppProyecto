@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
-import Logo from "../components/Logo.jsx";
+import Logo from "../components/Utils/Logo.jsx";
 import SideBar from "../components/SideBar.jsx";
-import ProfileOptions from "../components/ProfileOptions.jsx";
+import ProfileOptions from "../components/ProfileComponents/ProfileOptions.jsx";
 
 function Layout(){
     return(  

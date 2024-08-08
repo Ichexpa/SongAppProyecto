@@ -1,4 +1,4 @@
-import logoApp from "../assets/logoApp.png"
+import logoApp from "../../assets/logoApp.png"
 function Logo(){
     return(
         <div className="flex flex-row items-center">

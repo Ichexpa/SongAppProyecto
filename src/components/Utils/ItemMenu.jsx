@@ -1,4 +1,3 @@
-import addIcon from "../assets/addIcon.svg"
 
 function ItemMenu({nombreItem,iconoItem}){
     return(

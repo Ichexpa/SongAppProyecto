@@ -1,4 +1,4 @@
-import ItemMenu from "./ItemMenu"
+import ItemMenu from "./Utils/ItemMenu"
 import searchIcon from "../assets/search.svg"
 import playListIcon from "../assets/playlist.svg"
 import albumIcon from "../assets/album.svg"
@@ -7,7 +7,7 @@ import artistaIcon from "../assets/artistIcon.svg"
 import { Link } from "react-router-dom"
 import addIcon from "../assets/addIcon.svg"
 import { useState } from "react"
-import ModalPlayList from "./ModalPlayList"
+import ModalPlayListUpdate from "./PlayListComponents/ModalPlayListUpdate"
 export default function SideBar(){
     const [showModalPlayList,setShowModalPlayList] = useState(false)
     return(
@@ -51,6 +51,6 @@ export default function SideBar(){
                     </button>                 
                 </div>                
             </div>
-            <ModalPlayList isOpen={showModalPlayList} onClose={setShowModalPlayList} />
+            <ModalPlayListUpdate isOpen={showModalPlayList} onClose={setShowModalPlayList} />
         </div>)
 }

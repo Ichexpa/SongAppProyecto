@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react"
 import { useRef } from "react"
-import editIcon from "../assets/editIcon.svg"
-import { useContext } from "react"
-import { useClickEditContext } from "../contexts/StateEditingContext.jsx";
+import editIcon from "../../assets/editIcon.svg"
+import { useClickEditContext } from "../../contexts/StateEditingContext.jsx";
+
 export default  function ItemInfoProfileUser({refInput,nameField,valueContent="Test",typeInput="text", isTextarea=false}){
     const {setIsEditing} = useClickEditContext()
     const refContainer = useRef()

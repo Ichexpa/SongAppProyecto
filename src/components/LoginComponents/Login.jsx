@@ -1,6 +1,6 @@
-import { useAuth } from "../contexts/AuthContext.jsx"
+import { useAuth } from "../../contexts/AuthContext.jsx"
 import { useContext,useEffect,useRef } from "react"
-import useFetch from "../hooks/useFetch.js"
+import useFetch from "../../hooks/useFetch.js"
 import { redirect, useNavigate } from "react-router-dom"
 import { data } from "autoprefixer"
 

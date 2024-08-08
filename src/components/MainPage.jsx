@@ -1,5 +1,4 @@
-import SongItem from "./SongItem.jsx"
-import ListSongs from "./ListSongs.jsx"
+import ProfileDetails from "./ProfileComponents/ProfileDetails"
 function MainPage(){
     return(            
         <div className="">
@@ -8,7 +7,7 @@ function MainPage(){
                 imgError={songNotFoundImg}
                 descripcionError="La cancion no se encontró"
             /> */}
-            <ListSongs/>
+            <ProfileDetails/>
         </div>
     )
 }

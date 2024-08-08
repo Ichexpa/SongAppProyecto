@@ -1,6 +1,6 @@
-import playListIconPage from "../assets/playListIconPage.svg"
-import EtiquetaComponent from "./EtiquetaComponent"
-import playIcon from "../assets/playIcon.svg"
+import playListIconPage from "../../assets/playListIconPage.svg"
+import EtiquetaComponent from "../Utils/EtiquetaComponent"
+import playIcon from "../../assets/playIcon.svg"
 export default function PlayListItem({nombre,descripcion,listaDeCanciones}){
     
     return(

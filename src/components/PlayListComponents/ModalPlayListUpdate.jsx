@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import lockIcon from "../assets/lockIcon.svg"
-import unlockICon from "../assets/unlockIcon.svg"
-import useFetch from "../hooks/useFetch";
-import { data } from "autoprefixer";
-const ModalPlayList = ({ isOpen, onClose}) => {
+import lockIcon from "../../assets/lockIcon.svg"
+import unlockICon from "../../assets/unlockIcon.svg"
+import useFetch from "../../hooks/useFetch";
+
+const ModalPlayListUpdate = ({ isOpen, onClose}) => {
   if (!isOpen) return null;
   const token = localStorage.getItem("authToken")
   const [{data:dataUpdate,isLoading,isError},doUpdatePlayList] = useFetch(
@@ -101,11 +101,9 @@ const ModalPlayList = ({ isOpen, onClose}) => {
               &times;
             </button>
         </div>
-       
-        {/* Contenido del modal */}
       </div>
     </div>
   );
 };
 
-export default ModalPlayList;
+export default ModalPlayListUpdate;

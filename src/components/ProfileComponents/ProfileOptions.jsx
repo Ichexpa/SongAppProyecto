@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import profileIconDefault from "../assets/profileIcon.svg"
+import profileIconDefault from "../../assets/profileIcon.svg"
 
 function ProfileOptions(){
     const navigate = useNavigate()    
