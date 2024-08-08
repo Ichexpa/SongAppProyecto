@@ -9,6 +9,7 @@ import ProtectedRoute from "./AuthRoutes.jsx"
 import Layout from "./Layout"
 import AlbumDetails from "../components/AlbumDetails.jsx"
 import ProfileDetails from "../components/PerfilDetails.jsx"
+import {ContextClickEditProvider} from "../contexts/StateEditingContext.jsx"
 const Router = createBrowserRouter([
   {
     path: "/login",
@@ -31,7 +32,10 @@ const Router = createBrowserRouter([
       },
       {
         path : "/profile",
-        element : <ProfileDetails/>
+        element : (<ContextClickEditProvider>
+                      <ProfileDetails/>
+                   </ContextClickEditProvider>)
+
       },
       {
         path: "/albums",

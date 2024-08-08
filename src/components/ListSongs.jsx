@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { useAuth } from "../contexts/AuthContext.jsx"
 function ListSongs({idAlbum=""}){
+    const API_URL_BASE = import.meta.env.VITE_API_URL_SANDBOX
     const {token,id_user} = useAuth("state")
     console.log(token , id_user)
-    let urlFetch="https://sandbox.academiadevelopers.com/harmonyhub/songs/"
+    let urlFetch=`${API_URL_BASE}/harmonyhub/songs/`
     const  [{data : songData,isLoading,isError},doFetch] = useFetch()      
     const [searchParams] = useSearchParams()
     const paginaParam = searchParams.get("page")
@@ -20,7 +21,7 @@ function ListSongs({idAlbum=""}){
         setPageNumber(valor)
     }
     if(idAlbum){
-        urlFetch = `https://sandbox.academiadevelopers.com/harmonyhub/albums/${idAlbum}/songs/`
+        urlFetch = `${API_URL_BASE}/albums/${idAlbum}/songs/`
     } 
 
     useEffect(()=>{     

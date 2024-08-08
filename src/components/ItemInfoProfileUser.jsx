@@ -1,34 +1,17 @@
 import { useEffect, useState } from "react"
 import { useRef } from "react"
 import editIcon from "../assets/editIcon.svg"
+import { useContext } from "react"
+import { useClickEditContext } from "../contexts/StateEditingContext.jsx";
 export default  function ItemInfoProfileUser({refInput,nameField,valueContent="Test",typeInput="text", isTextarea=false}){
-    const [showInput, setShowInput]  = useState(false)
+    const {setIsEditing} = useClickEditContext()
     const refContainer = useRef()
     
     function changeVisibilityElements(){
         refContainer.current.style.display = "None"
         refInput.current.style.display = "block"
+        setIsEditing(true)
     }
-
-   /*  useEffect(()=>{
-        if (showInput) {
-            console.log(refContainer.current)
-            console.log(refInput.current)
-            if (refContainer.current && refInput.current) {
-                console.log("Hola")
-                refContainer.current.innerText = refInput.current.value;
-            }
-            }
-            else {
-            // Si estamos mostrando el div, cargamos el valor del div en el input
-                if (refContainer.current && refInput.current) {
-                    console.log("Hola 2")
-                    refInput.current.value = refContainer.current.innerText;
-                }
-            }
-    },[showInput]) */
-
-
 
     return(<div className={!isTextarea? "mt-5 flex flex-col w-1/2" : "mt-5 flex flex-col w-full"}>
                 <div className="flex flex-row gap-2">
