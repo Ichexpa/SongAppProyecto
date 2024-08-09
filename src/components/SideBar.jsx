@@ -8,8 +8,12 @@ import { Link } from "react-router-dom"
 import addIcon from "../assets/addIcon.svg"
 import { useState } from "react"
 import ModalPlayListUpdate from "./PlayListComponents/ModalPlayListUpdate"
+import AlbumModalCreate from "./AlbumComponents/AlbumModalCreate"
+import SongModalCreate from "./SongComponents/SongModalCreate"
 export default function SideBar(){
     const [showModalPlayList,setShowModalPlayList] = useState(false)
+    const [showModalAlbums,setShowModalAlbums]  = useState(false)
+    const [showModalSong,setShowModalSong]  = useState(false)
     return(
         <div>
             <div className="bg-gray-700 p-2 flex flex-row rounded-lg items-center">
@@ -30,7 +34,7 @@ export default function SideBar(){
                     <Link to="/albums">
                         <ItemMenu nombreItem="Albums" iconoItem={albumIcon} />
                     </Link>
-                    <button className="ml-auto">                   
+                    <button onClick={()=>setShowModalAlbums(true)} className="ml-auto">                   
                             <img className="w-8 h-8" src={addIcon} alt="" />   
                     </button>                 
                 </div>
@@ -38,7 +42,7 @@ export default function SideBar(){
                     <Link to="/canciones">                    
                         <ItemMenu nombreItem="Canciones" iconoItem={songIcon} />
                     </Link>
-                    <button className="ml-auto">                   
+                    <button onClick={()=>setShowModalSong(true)} className="ml-auto">                   
                         <img className="w-8 h-8" src={addIcon} alt="" />   
                     </button>                 
                 </div>
@@ -52,5 +56,7 @@ export default function SideBar(){
                 </div>                
             </div>
             <ModalPlayListUpdate isOpen={showModalPlayList} onClose={setShowModalPlayList} />
+            <AlbumModalCreate isOpen={showModalAlbums} onClose={setShowModalAlbums}/>
+            <SongModalCreate isOpen={showModalSong} onClose={setShowModalSong} />
         </div>)
 }

@@ -12,7 +12,7 @@ function ProfileDetails(){
     const API_URL_BASE = `${import.meta.env.VITE_API_URL_SANDBOX}`
     const {isEditing,setIsEditing} = useClickEditContext()
     const [imageSrc, setImageSrc] = useState(null);
-    const {token} = useAuth("state")
+    const token = localStorage.getItem("authToken")
     const [{data: dataUser , isLoading: isLoadingDataUser, isError : isErrorDataUser}, doFetch] = useFetch()
     const [{data: dataUpdate, isLoading: isLoadingUpdate, isError : isErrorUpdate},doFetchUpdate] = useFetch()
     let refInputNombre = useRef()
@@ -38,7 +38,6 @@ function ProfileDetails(){
         refImagen.current.click();
     }; 
     useEffect(()=>{
-        console.log("Se ejecuto el efecto")
         doFetch(
         {
             method: "GET",
@@ -86,7 +85,7 @@ function ProfileDetails(){
             doFetchUpdate({
                 method : "PATCH",
                 headers: {
-                Autorization: `Token ${token}`, 
+                Authorization: `Token ${token}`, 
                 'Content-Type' : 'application/json'               
                 },
                 body : JSON.stringify(dataBody) 

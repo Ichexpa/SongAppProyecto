@@ -34,20 +34,20 @@ function DropdownSong({song_id}) {
       {isOpen && (
         <div className="origin-top-right absolute right-0 w-56 rounded-md shadow-lg bg-slate-900 ring-1 ring-black ring-opacity-5  z-50">
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <a onClick={()=>setOpenPlayListAvailables(true)}  href="#" className="block px-4 py-2 text-sm text-gray-50 hover:bg-slate-700" role="menuitem">
+            <a  href="#" className="block px-4 py-2 text-sm text-gray-50 hover:bg-slate-700" role="menuitem">
               Editar
             </a>
             <a href="#" className="block px-4 py-2 text-sm text-gray-50 hover:bg-slate-700" role="menuitem">
               Borrar
             </a>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-50 hover:bg-slate-700" role="menuitem">
+            <a onClick={()=>setOpenPlayListAvailables(true)} href="#" className="block px-4 py-2 text-sm text-gray-50 hover:bg-slate-700" role="menuitem">
               Agregar a la lista de reproducción
             </a>
           </div>
         </div>
       )}
       {openPlayListAvailables &&
-        <ModalPlayListAvailable isOpen={openPlayListAvailables} onClose={setOpenPlayListAvailables}/>
+        <ModalPlayListAvailable song_id={song_id} isOpenModal={openPlayListAvailables} onClose={setOpenPlayListAvailables}/>
       } 
     </div>
   );

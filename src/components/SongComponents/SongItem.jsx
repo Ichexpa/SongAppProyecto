@@ -1,10 +1,9 @@
 import playButton from "../../assets/playBoton.svg"
 import pauseButton from "../../assets/pausaBoton.svg"
 import { useState } from "react"
-import iconOptions from "../../assets/optionsIcon.svg"
 import ReactPlayer from "react-player"
 import DropdownSong from "./DropDownSong"
-function SongItem({nombre,album,duracion,file_song}){
+function SongItem({song_id,nombre,album,duracion,file_song}){
     const [playingButton,setPlayingButton] = useState(false)
     return(
         <div className="bg-gray-800 flex flex-col rounded-lg">
@@ -17,7 +16,7 @@ function SongItem({nombre,album,duracion,file_song}){
                     <p className="text-lg text-slate-300">{nombre}</p>
                 </div>
                 <div className="absolute top-0 right-0 p-2">
-                    <DropdownSong />
+                    <DropdownSong song_id={song_id} />
                 </div>
                 {/* <div className="p-2 text-sm text-slate-300 ml-auto"> 
                     Duracion: {duracion ?? "Desconocida"}

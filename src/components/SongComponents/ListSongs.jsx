@@ -44,7 +44,8 @@ function ListSongs({idAlbum=""}){
                                     nombre = {song.title}
                                     file_song = {song.song_file}
                                     album = {song.album}
-                                    duracion={song.duration} />
+                                    duracion={song.duration}
+                                    song_id = {song.id} />
                         )
                     }
                     )

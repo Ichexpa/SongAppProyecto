@@ -1,11 +1,38 @@
 import { useNavigate } from "react-router-dom"
 import profileIconDefault from "../../assets/profileIcon.svg"
+import { useAuth } from "../../contexts/AuthContext"
+import useFetch from "../../hooks/useFetch"
+import { useEffect } from "react"
 
 function ProfileOptions(){
-    const navigate = useNavigate()    
+    const navigate = useNavigate() 
+    const {logout} = useAuth("actions")
+    const token = localStorage.getItem("authToken")
+    const API_URL_BASE = import.meta.env.VITE_API_URL_SANDBOX
+    const [{data: dataUser , isLoading: isLoadingDataUser, isError : isErrorDataUser}, doFetch] = useFetch()
+    useEffect(()=>{
+        doFetch(
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Token ${token}`,
+            },  
+        },
+        `${API_URL_BASE}/users/profiles/profile_data/`)
+    },[])
     return(
-        <div onClick={()=>navigate("profile")}  className="cursor-pointer h-4/5 w-20 rounded-full">
-            <img className="my-auto w-full h-full" src={profileIconDefault} alt="perfil" />
+        <div className="flex flex-row items-center bg-gray-800 rounded-2xl p-1">
+            <div className="p-3 flex flex-col space-y-2">
+                <button onClick={()=>navigate("profile")} className="text-center text-sm text-white bg-gray-900 rounded-lg p-1 hover:bg-cyan-950">
+                    Ver perfil
+                </button>
+                <button onClick={()=>logout()} className="text-sm text-white bg-gray-900 rounded-lg p-1 hover:bg-cyan-950">
+                    Cerrar Sesión
+                </button>
+            </div>
+            <div className="cursor-pointer w-20 h-20 rounded-full overflow-hidden ">
+                <img className="w-full h-full object-cover" src={dataUser ? `${API_URL_BASE}/${dataUser.image}` : profileIconDefault} alt="perfil" />
+            </div>            
         </div>
     )
 
