@@ -11,6 +11,7 @@ import Layout from "./Layout"
 import AlbumDetails from "../components/AlbumComponents/AlbumDetails.jsx"
 import ProfileDetails from "../components/ProfileComponents/ProfileDetails.jsx"
 import {ContextClickEditProvider} from "../contexts/StateEditingContext.jsx"
+import PlayListDetails from "../components/PlayListComponents/PlayListDetails.jsx"
 const Router = createBrowserRouter([
   {
     path: "/login",
@@ -39,7 +40,16 @@ const Router = createBrowserRouter([
       },
       {
         path: "/playlists",
-        element: <PlayList />
+        children:[
+          {
+            index : true,
+            element : <PlayList />
+          },
+          {
+            path : ":idPlayList",
+            element : <PlayListDetails/>
+          }
+        ] 
       },
       {
         path: "/albums",

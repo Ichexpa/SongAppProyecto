@@ -1,11 +1,22 @@
-import { useEffect } from "react"
+import { useEffect,useState } from "react"
 import useFetch from "../../hooks/useFetch"
 import AlbumItem from "./AlbumItem"
 import LoadingSpinner from "../Utils/LoadingSpinner"
-
+import Paginador from "../Utils/Paginador"
+import { useSearchParams,useNavigate } from "react-router-dom"
 function AlbumList({idAlbum=""}){
-    const [{data:dataAlbums, isLoading, isError},doFetch] = useFetch("https://sandbox.academiadevelopers.com/harmonyhub/albums/")
-    useEffect(()=>doFetch(),[])
+    let urlFetch=`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/albums/`
+    const [searchParams] = useSearchParams()
+    const navigator = useNavigate()
+    const paginaParam = searchParams.get("page")
+    const [{data:dataAlbums, isLoading, isError},doFetch] = useFetch()
+    const [pageNumber,setPageNumber]  = useState(paginaParam ?? 1)
+    useEffect(()=>{
+        navigator(`?page=${pageNumber}`)
+        urlFetch += `?page=${pageNumber}`
+        doFetch({},urlFetch)
+    },[pageNumber])
+
     if(isLoading){
         return <LoadingSpinner/>        
     }
@@ -24,7 +35,10 @@ function AlbumList({idAlbum=""}){
                         artista_id={album.artist}/>
                     </div>)
                 })
-            }
+            }            
+            {dataAlbums &&
+            <Paginador paginaHandler={setPageNumber} isNext= {dataAlbums.next ? true : false} defaultValue = {paginaParam}  />    
+            }  
         </div>
     )
 }

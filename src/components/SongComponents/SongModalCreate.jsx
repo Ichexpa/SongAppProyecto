@@ -9,12 +9,20 @@ function SongModalCreate({ isOpen, onClose}){
     const refInputAño = useRef()
     const refInputBusqueda = useRef()
     const refAudio = useRef()
-    const [{data:dataCreate,isLoading,isError},doUpdatePlayList] = useFetch(
-      `${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/playlists/`)
+    const token = localStorage.getItem("authToken")
+    const [{data:dataSong ,isLoading,isError},doCreateSong] = useFetch(
+      `${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/songs/`)
     const [albumValueSearch,setAlbumValueSearch] = useState("")
     const [albumSelect,setAlbumSelect] = useState({id_album : null, name_album : null })
-    const [audioFile, setAudioFile] = useState(null);    
+    const [audioFile, setAudioFile] = useState(null);   
+    const [uploadSucces,setUploadSucces] = useState(false)  
 
+    function handleMessageSuccess(){
+        setUploadSucces(true)
+        setTimeout(()=>{
+            setUploadSucces(false)
+        },4000)
+    }
     function handleFileChange(event){
         setAudioFile(event.target.files[0]);
     }
@@ -27,11 +35,29 @@ function SongModalCreate({ isOpen, onClose}){
         }
     }
     function createSongHandler(){
-        console.log(refInputNombre.current.value)
-        console.log(refInputAño.current.value)
-        console.log(albumSelect.name_album)
-        console.log(audioFile)
+        if(refInputNombre.current.value !== "" && audioFile && albumSelect.id_album){
+            const formData = new FormData()
+                formData.append("title", refInputNombre.current.value)
+                formData.append("year", refInputAño.current.value ?? null)
+                formData.append("song_file", audioFile )
+                formData.append("album", albumSelect.id_album)
+            doCreateSong({
+            method: 'POST',
+            headers: {
+                    Authorization: `Token ${token}`,                
+                    },
+            body : formData
+            })
+        }
+        else{
+            alert("faltan valores")
+        }
     }
+    useEffect(()=>{
+        if(dataSong){
+            handleMessageSuccess()
+        }
+    },[dataSong])
     return(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-cyan-900 rounded-xl shadow-lg p-3 w-2/5">
@@ -86,11 +112,11 @@ function SongModalCreate({ isOpen, onClose}){
                         <button onClick={createSongHandler}  className="transition ease-in-out delay-250 bg-teal-900 hover:bg-teal-950 font-semibold hover:text-white py-2 px-4 border border-cyan-950 hover:border-transparent rounded">
                                 Agregar 
                         </button>
-                        {/* {showMessageInfo.playListAdded &&
+                        {uploadSucces &&
                         <div className="text-sm font-bold mx-auto text-lime-700">
-                            PlayList Agregada con exito
+                            Canción agregada con éxito
                         </div>
-                        } */}
+                        }
                     </div>
                     <button 
                     className="absolute text-3xl top-2 right-2 text-red-500 hover:text-gray-700"

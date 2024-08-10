@@ -18,7 +18,7 @@ export default function ArtistaItem({idArtista=""}){
             </div>
             <div className="text-sm flex flex-col gap-2">
                 <h1 className="text-md font-semibold">{dataArtist.name}</h1>
-                <p className="text-sm">{dataArtist.bio}</p>
+                <p className="max-w-xs max-h-48 overflow-hidden">{dataArtist.bio}</p>
                 <Link to={dataArtist.website ?? "#"} >
                     {dataArtist.website? 
                         <span className="text-cyan-400">{dataArtist.website}</span> 

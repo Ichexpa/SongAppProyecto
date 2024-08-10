@@ -18,7 +18,7 @@ function AlbumItem({idAlbum="",title,year,portadaImg,artista_id}){
                     <div className="w-2/5 flex flex-col gap-2">
                         <h6 className="text-l text-slate-400">Informacion del Album</h6>
                         <h1 className="text-md font-semibold">Titulo: {title}</h1>
-                        <p className="mt-2 text-sm text-gray-400">Año: {year}</p>
+                        <p className="mt-2 text-sm text-gray-400">Año: {year?? "Sin especificar"}</p>
                     </div>
                     <div className="w-3/5">
                         <h6 className="text-l text-slate-400 mb-2">Informacion del Artista</h6>

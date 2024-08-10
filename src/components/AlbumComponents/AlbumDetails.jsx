@@ -5,10 +5,11 @@ import LoadingSpinner from "../Utils/LoadingSpinner";
 import { useEffect } from "react";
 import EtiquetaComponent from "../Utils/EtiquetaComponent";
 import albumMusicIcon from "../../assets/albumMusic.svg"
+import ListSongArtist from "../SongComponents/ListSongsArtist";
 export default function AlbumDetails(){
     const params = useParams()
     const idAlbum = params.idAlbum
-    const [{data: dataCanciones,isLoading,isError},doFetch] = useFetch(`https://sandbox.academiadevelopers.com/harmonyhub/albums/${idAlbum}/`)
+    const [{data: dataCanciones,isLoading,isError},doFetch] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/albums/${idAlbum}/`)
 
     useEffect(()=>doFetch(),[])
 
@@ -37,7 +38,7 @@ export default function AlbumDetails(){
                     </div>
                 </div>
                 <div className="w-100 h-full overflow-auto">
-                    <ListSongs idAlbum={idAlbum}/>
+                    <ListSongArtist idAlbum={idAlbum}/>
                 </div>
             </>}
             {isLoading && <LoadingSpinner/>}
