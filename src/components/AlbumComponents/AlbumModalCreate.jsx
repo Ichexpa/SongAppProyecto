@@ -5,11 +5,14 @@ import uploadPhotoImg from "../../assets/subirFoto.png"
 function AlbumModalCreate({ isOpen, onClose}){
     if (!isOpen) return null; 
     const token = localStorage.getItem("authToken")   
-    const [{data: dataAlbum, isLoading, isError},doFetch] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/albums/`)
+    const [{data: dataAlbumCreate, isLoading, isError},doFetch] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/albums/`)
     const refInputNombre = useRef()
     const refInputAño = useRef()
     const refInputBusqueda = useRef()
     const refImagen = useRef()
+    const [messageSucces,setMessageSucces] = useState(false)
+    const [messageInfoArtist,setMessageInfoArtist]  = useState(false)
+    const [messageInfoName,setMessageInfoName]  = useState(false)
     const [imageSrc, setImageSrc] = useState(null);
     const [artistValueSearch,setArtistValueSearch] = useState("")
     const [artistSelect,setArtistSelect] = useState({id_artist : null, name_artist : null })
@@ -37,7 +40,9 @@ function AlbumModalCreate({ isOpen, onClose}){
         const formData = new FormData()
             formData.append("title", refInputNombre.current.value)
             formData.append("year", refInputAño.current.value ?? null)
-            formData.append("cover", refImagen.current.files[0] ?? null )
+            if(refImagen.current.files[0]){                
+              formData.append("cover", refImagen.current.files[0] )
+            }
             formData.append("artist", artistSelect.id_artist)
         doFetch({
           method: 'POST',
@@ -48,9 +53,29 @@ function AlbumModalCreate({ isOpen, onClose}){
         })
       }
       else{
-        alert("faltan valores")
+        if(refInputNombre.current.value == ""){
+          setMessageInfoName(true)
+          setTimeout(()=>{
+            setMessageInfoName(false)
+          },3500)
+        }
+        if(artistSelect.id_artist == null){
+          setMessageInfoArtist(true)
+          setTimeout(()=>{
+            setMessageInfoArtist(false)
+          },3500)
+        }
       }
     }
+    useEffect(()=>{
+      if(dataAlbumCreate){
+        setMessageSucces(true)
+        setTimeout(()=>{
+          setMessageSucces(false)
+        },3500)
+      }
+
+    },[dataAlbumCreate])
     return(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-cyan-900 rounded-xl shadow-lg p-3 w-2/5">
@@ -74,28 +99,26 @@ function AlbumModalCreate({ isOpen, onClose}){
                       </div>
                       <div className="flex flex-col ">
                           <div className="h-3/6 w-full">
-                            <h2 className="text-slate-400 text-md">Nombre: </h2>
+                            <h2 className="text-slate-400 text-md">Nombre: </h2>                            
                             <div className="mt-2 overflow-hidden">
                               <input ref={refInputNombre} placeholder="Album" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputNombre} type="text" />
                             </div>
+                            {messageInfoName &&
+                            <div className="text-red-600">El nombre del album es obligatorio </div>
+                            }
                           </div>
                           <div className="h-3/6 w-full">
                             <h2 className="text-slate-400 text-md">Año: </h2>
                             <div className="mt-2 overflow-hidden">
                               <input ref={refInputAño} placeholder="Año" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputAño} type="text" />
                             </div>
-                            {/* {showMessageInfo.nameRequiredMessage &&
-                            <div className="text-sm text-red-500 mt-2 mb-2">
-                              Debes agregarle un nombre a la lista
-                            </div>
-                            } */}
                           </div>
                       </div>
                     </div>
                     <div className="flex flex-col mt-2">
                         <h2 className="text-slate-400 text-md">Buscar al Artista: </h2>
                         <input ref={refInputBusqueda} onKeyDown={hadleKeyPress} type="text" placeholder="nombreArtista" className="mt-2 p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950" />
-                        {artistValueSearch.name == null &&
+                        {messageInfoArtist &&
                         <div className="text-red-600">Debes escribir el nombre del artista </div>
                         }
                         <div>                            
@@ -106,11 +129,11 @@ function AlbumModalCreate({ isOpen, onClose}){
                 <button onClick={crateAlbumHandler} className="transition ease-in-out delay-250 bg-teal-900 hover:bg-teal-950 font-semibold hover:text-white py-2 px-4 border border-cyan-950 hover:border-transparent rounded">
                         Crear album 
                 </button>
-                {/* {showMessageInfo.playListAdded &&
-                  <div className="text-sm font-bold mx-auto text-lime-700">
-                    PlayList Agregada con exito
-                  </div>
-                } */}
+                {messageSucces &&
+                <div className="text-sm font-bold mx-auto text-lime-700">
+                    Álbum agregado con éxito
+                </div>
+                }
             </div>
              <button 
               className="absolute text-3xl top-2 right-2 text-red-500 hover:text-gray-700"

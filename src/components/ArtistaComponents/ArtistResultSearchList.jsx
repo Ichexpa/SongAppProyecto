@@ -5,7 +5,6 @@ import { useEffect } from "react"
 function ArtistResultSearchList({artist_name,setSelectArtist}){
     const [{data: dataArtist , isLoading, isError},doFetch] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/artists/?name=${artist_name}`)
     useEffect(()=>{
-        console.log("Effecto de artista ejecutado")
         doFetch()}
         ,[artist_name])
     function handleClick(artist){

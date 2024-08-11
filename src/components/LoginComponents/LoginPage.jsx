@@ -1,13 +1,12 @@
 import Login from "./Login.jsx"
 import Logo from "../Utils/Logo.jsx"
 import AlbumLoginPage from "../AlbumComponents/AlbumLoginPage.jsx"
-/* import InformacionCancion from "./InformacionCancion.jsx" */
 import { useEffect } from "react"
 import useFetch from "../../hooks/useFetch.js"
 import LoadingSpinner from "../Utils/LoadingSpinner.jsx"
 
 function LoginPage(){
-    const [{data :dataAlbum, isLoading :loadingAlbum, isError :errorAlbum},fetchAlbum] = useFetch("https://sandbox.academiadevelopers.com/harmonyhub/albums/")
+    const [{data :dataAlbum, isLoading :loadingAlbum, isError :errorAlbum},fetchAlbum] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/albums/`)
            
     useEffect(()=>{
         fetchAlbum()
@@ -24,13 +23,13 @@ function LoginPage(){
                         <h1 className="tracking-wider w-1/2 text-slate-300 ml-7 text-3xl font-semibold ">Ingresa para escuchar los siguientes temas gratis</h1>
                         
                         {loadingAlbum &&
-                        <div className="mt-16 p-4 w-full flex justify-center">
+                        <div className="relative mt-16 p-4 w-full flex justify-center">
                             <LoadingSpinner/>
                         </div>
                         }
                         
                         {dataAlbum &&
-                        <div className="overflow-hidden mt-10 w-11/12 mx-auto flex flex-row gap-3 items-center">                             
+                        <div className="overflow-auto mt-10 w-11/12 mx-auto flex flex-row gap-3 items-center">                             
                                 {
                                     dataAlbum.results.map((album)=>(
                                         <div key={album.id} className="border rounded-lg">
@@ -38,7 +37,6 @@ function LoginPage(){
                                         </div>
                                     ))  
                                 }
-                                {/* <InformacionCancion nombre="Ejemplo 1" lanzamiento="2022" genero="rap" /> */}
                         </div>}
                         {
                          errorAlbum && <div>Hola</div>

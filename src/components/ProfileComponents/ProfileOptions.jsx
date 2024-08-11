@@ -12,7 +12,6 @@ function ProfileOptions(){
     const API_URL_BASE = import.meta.env.VITE_API_URL_SANDBOX
     const [{data: dataUser , isLoading: isLoadingDataUser, isError : isErrorDataUser}, doFetch] = useFetch()
     useEffect(()=>{
-        ("Se ejecuto el efecto de profileOptions")
         doFetch(
         {
             method: "GET",
@@ -23,7 +22,6 @@ function ProfileOptions(){
         `${API_URL_BASE}/users/profiles/profile_data/`)
     },[])
     useEffect(()=>{
-        console.log("Se ejecuto el segundo efecto de profile")
         if(dataUser){
             setProfilePhoto(dataUser.image)
         }

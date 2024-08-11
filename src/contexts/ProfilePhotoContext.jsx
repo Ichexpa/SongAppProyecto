@@ -3,7 +3,7 @@ import { createContext, useContext,useState } from "react";
 const ProfilePhotoContext = createContext()
 
 function ProfilePhotoProvider({children}){
-    const [profilePhoto, setProfilePhoto] = useState("XDD");
+    const [profilePhoto, setProfilePhoto] = useState("");
     return(
          <ProfilePhotoContext.Provider value={{profilePhoto,setProfilePhoto}}>
             {children}

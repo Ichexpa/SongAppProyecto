@@ -10,6 +10,9 @@ function SongModalCreate({ isOpen, onClose}){
     const refInputBusqueda = useRef()
     const refAudio = useRef()
     const token = localStorage.getItem("authToken")
+    const [messageInfoName,setMessageInfoName] = useState(false)    
+    const [messageAlbumInfo,setMessageAlbumInfo] = useState(false)
+    const [messageInfoSong,setMessageInfoSong] = useState(false)
     const [{data:dataSong ,isLoading,isError},doCreateSong] = useFetch(
       `${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/songs/`)
     const [albumValueSearch,setAlbumValueSearch] = useState("")
@@ -50,7 +53,24 @@ function SongModalCreate({ isOpen, onClose}){
             })
         }
         else{
-            alert("faltan valores")
+            if(refInputNombre.current.value == ""){
+                setMessageInfoName(true)
+                setTimeout(()=>{
+                    setMessageInfoName(false)
+                },3500)
+            }
+            if(!albumSelect.id_album){
+                setMessageAlbumInfo(true)
+                setTimeout(()=>{
+                    setMessageAlbumInfo(false)
+                },3500)
+            }
+            if(!audioFile){
+                setMessageInfoSong(true)
+                setTimeout(()=>{
+                    setMessageInfoSong(false)
+                },3500)
+            }
         }
     }
     useEffect(()=>{
@@ -70,22 +90,17 @@ function SongModalCreate({ isOpen, onClose}){
                                     <div className="mt-2 overflow-hidden">
                                         <input placeholder="Nombre de la canción" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputNombre} type="text" />
                                     </div>
-                                    {/* {showMessageInfo.nameRequiredMessage &&
+                                    {messageInfoName &&
                                     <div className="text-sm text-red-500 mt-2 mb-2">
-                                        Debes agregarle un nombre a la lista
+                                        Debes agregarle un nombre a la canción
                                     </div>
-                                    } */}
+                                    }
                                 </div>
                                 <div className="">
                                     <h2 className="text-slate-400 text-md">Año: </h2>
                                     <div className="mt-2 overflow-hidden">
-                                        <input  ref={refInputAño} placeholder="Año" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputAño} type="text" />
-                                    </div>
-                                    {/* {showMessageInfo.nameRequiredMessage &&
-                                    <div className="text-sm text-red-500 mt-2 mb-2">
-                                    Debes agregarle un nombre a la lista
-                                    </div>
-                                    } */}
+                                        <input  ref={refInputAño} placeholder="Año" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  type="text" />
+                                    </div>                
                                 </div>
                                 <div className="">
                                     <h2 className="text-slate-400 text-md w-full">Sube el archivo de audio: </h2>
@@ -95,6 +110,7 @@ function SongModalCreate({ isOpen, onClose}){
                                         <input ref={refAudio} onChange={handleFileChange}  style={{ display: 'none' }} type="file" accept="audio/*" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950" />
                                     
                                     </div>
+                                    {messageInfoSong && <div className="flex justify-center text-red-600">Debes subir un archivo de audio</div> }
                                     {audioFile && <div className="flex justify-center text-green-400">Cargada</div>}
 
                                 </div>
@@ -102,9 +118,9 @@ function SongModalCreate({ isOpen, onClose}){
                           <div className="flex flex-col">
                                 <h2 className="text-slate-400 text-md">Buscar Album: </h2>
                                 <input ref={refInputBusqueda} onKeyDown={hadleKeyPress} type="text" placeholder="Ingresa el nombre del album que deseas buscar" className="mt-2 p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950" />
-                               {/*  {artistValueSearch.name == null &&
-                                <div className="text-red-600">Debes escribir el nombre del album </div>
-                                } */}
+                                {messageAlbumInfo &&
+                                <div className="text-red-600">Debes seleccionar un álbum</div>
+                                }
                                 <div>                            
                                     <AlbumResultSearchList setAlbumSelect={setAlbumSelect} album_name={albumValueSearch}/>
                                 </div>
@@ -113,7 +129,7 @@ function SongModalCreate({ isOpen, onClose}){
                                 Agregar 
                         </button>
                         {uploadSucces &&
-                        <div className="text-sm font-bold mx-auto text-lime-700">
+                        <div className="text-sm font-bold mx-auto text-lime-400">
                             Canción agregada con éxito
                         </div>
                         }

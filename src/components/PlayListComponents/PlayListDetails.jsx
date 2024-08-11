@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom"
 import { useRef } from "react"
 import DropDownPlayList from "./DropdownPlayList"
 import { data } from "autoprefixer"
+import privateIcon from "../../assets/privateIcon.svg"
+import unlockIcon from "../../assets/unlockIconDetails.svg"
 function PlayListDetails(){    
     const params = useParams()
     const idPlayList = params.idPlayList
@@ -17,7 +19,6 @@ function PlayListDetails(){
     const [selectSong,setSelectSong] = useState()
     const [songURL,setSongURL] = useState()
     const [coverImg,setCoverImg] = useState()
-    const [refreshComponent, setRefreshComponent] = useState(0)
     const [refreshPlayListData,setRefreshPlayListData] = useState(0)
     const audioRef = useRef()
     function setValuesCoverAndSong(data){       
@@ -28,7 +29,7 @@ function PlayListDetails(){
     }    
     useEffect(()=>{
         doFetchPlayListEntries()
-    },[refreshComponent]) 
+    },[]) 
     useEffect(()=>{
         doFetchPlayList()
     },[refreshPlayListData])
@@ -54,6 +55,7 @@ function PlayListDetails(){
             }
     },[dataPlayList])
     return(
+        <div>
             <div className="flex flex-row w-full rounded-xl">
                 <div className="flex flex-col w-7/12">
                     <div className="h-96">
@@ -71,9 +73,24 @@ function PlayListDetails(){
                         <p className="text-xl font-bold p-1">{dataPlayList ? dataPlayList.name : "Cargando"}</p>
                         <p className="p-1 text-slate-400 text-sm">{isLoadingUser? "Cargando..." :  (dataUser ? dataUser.username : "Desconocido")}</p>
                         { dataPlayList.owner == idUser &&
-                        <div className="absolute top-2 right-2 p-2">
+                        <div className="absolute top-2 right-2 p-1">
                             <DropDownPlayList id_playList={dataPlayList.id} refreshMainComponent={setRefreshPlayListData}/>
                         </div>}
+                        {dataPlayList.public ? 
+                        <div className="absolute bottom-2 right-2 p-2">
+                            <div className="bg-green-600 p-2 h-8 flex flex-row items-center rounded-lg">
+                                <p className="text-white text-sm">Publico</p>
+                                <img className="ml-2 w-5 h-5" src={privateIcon} alt="" />
+                            </div>
+                        </div> :
+                        <div className="absolute bottom-2 right-2 p-2">
+                            <div className="bg-slate-900 p-2 h-8 flex flex-row items-center rounded-lg">
+                                <p className="text-slate-400 text-sm">Privado</p>
+                                <img className="ml-2 w-5 h-5" src={privateIcon} alt="" />
+                            </div>
+                        </div>
+                        }
+                        
                     </div>
                     <div className="bg-gray-950 flex-1 overflow-auto">
                         <div className="flex flex-col h-80 overflow-auto">
@@ -85,16 +102,24 @@ function PlayListDetails(){
                                          id_song={playListItem.song}
                                          selectSong = {setSelectSong}
                                          isOwner = {dataPlayList.owner == idUser}
-                                         deletedItemPlayList = {setRefreshComponent}
                                           />
                                 )
                             })
                             }
                         </div>
-                    </div>    
+                    </div>       
                 </div>
                 }
-           </div>
+           </div>                               
+            <div className="flex flex-col w-full bg-gray-800 rounded-b-lg p-3">
+                <h1 className="font-bold text-md text-white">Descripción</h1>
+                {dataPlayList && 
+                    <p className ="text-sm ml-2 p-2" >{dataPlayList.description}</p>
+                }
+                {isLoadingPlayList &&
+                 <p className ="text-sm ml-2 p-2" >Cargando...</p>}    
+            </div> 
+        </div>        
            )
 }
 export default PlayListDetails

@@ -8,9 +8,7 @@ import ListSongs from "../components/SongComponents/ListSongs.jsx"
 import Layout from "./Layout"
 import AlbumDetails from "../components/AlbumComponents/AlbumDetails.jsx"
 import ProfileDetails from "../components/ProfileComponents/ProfileDetails.jsx"
-import {ContextClickEditProvider} from "../contexts/StateEditingContext.jsx"
 import PlayListDetails from "../components/PlayListComponents/PlayListDetails.jsx"
-import { ProfilePhotoProvider } from "../contexts/ProfilePhotoContext.jsx"
 const Router = createBrowserRouter([
   {
     path: "/login",
@@ -25,9 +23,8 @@ const Router = createBrowserRouter([
     children: [      
       {
         index : true,
-        element : (<ContextClickEditProvider>
-                      <ProfileDetails/>
-                   </ContextClickEditProvider>)
+        element : <ProfileDetails/>
+                  
 
       },
       {

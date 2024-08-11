@@ -2,13 +2,18 @@ import useFetch from "../../hooks/useFetch"
 import { useEffect } from "react"
 import SongItem from "./SongItem"
 import LoadingSpinner from "../Utils/LoadingSpinner"
-function ListSongArtist({idAlbum}){
+function ListSongArtist({idAlbum,getTotalSongs}){
     const API_URL_BASE = import.meta.env.VITE_API_URL_SANDBOX
     let urlFetch=`${API_URL_BASE}/harmonyhub/albums/${idAlbum}/songs/`
     const  [{data : songData,isLoading,isError},doFetch] = useFetch(urlFetch)
     useEffect(()=>{     
         doFetch();        
     },[])
+    useEffect(()=>{
+        if(songData){
+           getTotalSongs(songData.results.filter(song=> song.song_file!=null).length)
+        }
+    },[songData])
     return(
        <div>
             <div className="flex flex-col h-96 overflow-auto gap-1">

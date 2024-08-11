@@ -16,6 +16,7 @@ function ProfileDetails(){
     const token = localStorage.getItem("authToken")
     const [{data: dataUser , isLoading: isLoadingDataUser, isError : isErrorDataUser}, doFetch] = useFetch()
     const [{data: dataUpdate, isLoading: isLoadingUpdate, isError : isErrorUpdate},doFetchUpdate] = useFetch()
+    const [resfreshData,setRefreshData] = useState(0)
     let refInputNombre = useRef()
     let refInputApellido  = useRef()
     let refInputEmail = useRef()
@@ -46,9 +47,8 @@ function ProfileDetails(){
                 Authorization: `Token ${token}`,
             },  
         },
-        `${API_URL_BASE}/users/profiles/profile_data/`)        
-        /* setProfilePhoto("Hola desde options profile") */
-    },[])
+        `${API_URL_BASE}/users/profiles/profile_data/`)      
+    },[resfreshData])
     const getValueInput = () =>{
         const valorBio = refTextAreaBio.current.value == "Aun no se posee descripción..."?
                          null : refTextAreaBio.current.value
@@ -59,7 +59,6 @@ function ProfileDetails(){
             dob : refInputFechaNac.current.value || dataUser.dob,
             bio :  valorBio,           
         }
-        /* console.log(body) */
        if(refImagen.current.files[0]){
             const formData = new FormData()
             formData.append("first_name", dataBody.first_name)
@@ -81,8 +80,6 @@ function ProfileDetails(){
 
         }
         else{
-            console.log("Se ejecuto sin imagen se envio un json")
-
             doFetchUpdate({
                 method : "PATCH",
                 headers: {
@@ -98,6 +95,7 @@ function ProfileDetails(){
     useEffect(()=>{
         if(dataUpdate){            
             setProfilePhoto(dataUpdate.image)
+            setRefreshData((prev)=>prev+1)
         }
     },[dataUpdate])
     return(
@@ -116,7 +114,8 @@ function ProfileDetails(){
                                     accept="image/*"
                                     onChange={handleFileChange}
                                 />                        
-                        </div>
+                        </div>                        
+                        <h1 className="mt-2 text-md text-slate-400 font-bold text-center">{dataUser.username}</h1>
                         <div className="absolute top-1 right-2">
                             <div onClick={handleClickImage} className="bg-black rounded-full p-1 cursor-pointer w-10 h-10">
                                     <img src={editIcon} alt="editarImg" />

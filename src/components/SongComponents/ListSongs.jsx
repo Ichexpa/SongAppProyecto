@@ -57,10 +57,7 @@ function ListSongs(){
             setPageNumber(1)
         }
     },[toggleStatus])
-    
-    if(songData){
-        console.log(songData)
-    }
+
     return(
        <div> 
             <div className="flex flex-row items-center">       

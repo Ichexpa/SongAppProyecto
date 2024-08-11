@@ -7,7 +7,10 @@ function ModalEditSong({ isOpen, onClose,id_song}){
     const refInputNombre = useRef()
     const refInputAño = useRef()
     const refInputBusqueda = useRef()
-    const refAudio = useRef()
+    const refAudio = useRef()    
+    const [messageInfoName,setMessageInfoName] = useState(false)    
+    const [messageAlbumInfo,setMessageAlbumInfo] = useState(false)
+    const [messageInfoSong,setMessageInfoSong] = useState(false)
     const token = localStorage.getItem("authToken")
     const [{data:dataSong ,isLoading,isError},doGetSong] = useFetch(
       `${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/songs/${id_song}`)
@@ -18,7 +21,6 @@ function ModalEditSong({ isOpen, onClose,id_song}){
     const [albumSelect,setAlbumSelect] = useState({id_album : null, name_album : null })
     const [audioFile, setAudioFile] = useState(null);   
     const [uploadSucces,setUploadSucces] = useState(false) 
-    console.log("Cargando actualizacion" , isLoadingUpdate)
     function handleMessageSuccess(){
         setUploadSucces(true)
         setTimeout(()=>{
@@ -38,10 +40,6 @@ function ModalEditSong({ isOpen, onClose,id_song}){
     }
     function UpdateSongHandler(){
         if(refInputNombre.current.value !== "" && audioFile && albumSelect.id_album){
-            console.log("nombre", refInputNombre.current.value)
-            console.log("año", refInputAño.current.value)
-            console.log("audio", audioFile)
-            console.log("album",albumSelect.id_album)
             const formData = new FormData()
                 formData.append("title", refInputNombre.current.value)
                 formData.append("year", refInputAño.current.value ?? null)
@@ -58,7 +56,24 @@ function ModalEditSong({ isOpen, onClose,id_song}){
             })
         }
         else{
-            alert("faltan valores")
+            if(refInputNombre.current.value == ""){
+                setMessageInfoName(true)
+                setTimeout(()=>{
+                    setMessageInfoName(false)
+                },3500)
+            }
+            if(!albumSelect.id_album){
+                setMessageAlbumInfo(true)
+                setTimeout(()=>{
+                    setMessageAlbumInfo(false)
+                },3500)
+            }
+            if(!audioFile){
+                setMessageInfoSong(true)
+                setTimeout(()=>{
+                    setMessageInfoSong(false)
+                },3500)
+            }
         }
     }
     useEffect(()=>{
@@ -74,7 +89,6 @@ function ModalEditSong({ isOpen, onClose,id_song}){
     },[dataSong])
     useEffect(()=>{
         if(dataAlbum && dataSong){
-            console.log("URL DE LA CANCION " + dataSong.song_file)
             setAlbumSelect({id_album : dataAlbum.id, name_album : dataAlbum.title })
             setAudioFile(dataSong.song_file)
         }
@@ -96,23 +110,18 @@ function ModalEditSong({ isOpen, onClose,id_song}){
                                     <h2 className="text-slate-400 text-md">Nombre: </h2>
                                     <div className="mt-2 overflow-hidden">
                                         <input defaultValue={dataSong.title} placeholder="Nombre de la canción" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputNombre} type="text" />
-                                    </div>
-                                    {/* {showMessageInfo.nameRequiredMessage &&
+                                    </div>                                    
+                                    {messageInfoName &&
                                     <div className="text-sm text-red-500 mt-2 mb-2">
-                                        Debes agregarle un nombre a la lista
+                                        Debes agregarle un nombre a la canción
                                     </div>
-                                    } */}
+                                    }
                                 </div>
                                 <div className="">
                                     <h2 className="text-slate-400 text-md">Año: </h2>
                                     <div className="mt-2 overflow-hidden">
-                                        <input defaultValue={dataSong.year}  ref={refInputAño} placeholder="Año" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputAño} type="text" />
+                                        <input defaultValue={dataSong.year}  ref={refInputAño} placeholder="Año" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950" type="text" />
                                     </div>
-                                    {/* {showMessageInfo.nameRequiredMessage &&
-                                    <div className="text-sm text-red-500 mt-2 mb-2">
-                                    Debes agregarle un nombre a la lista
-                                    </div>
-                                    } */}
                                 </div>
                                 <div className="">
                                     <h2 className="text-slate-400 text-md w-full">Sube el archivo de audio: </h2>
@@ -122,6 +131,7 @@ function ModalEditSong({ isOpen, onClose,id_song}){
                                         <input /* defaultValue={dataSong.song_file} */ ref={refAudio} onChange={handleFileChange}  style={{ display: 'none' }} type="file" accept="audio/*" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950" />
                                     
                                     </div>
+                                    {messageInfoSong && <div className="flex justify-center text-red-600">Debes subir un archivo de audio</div> }
                                     {audioFile && <div className="flex justify-center text-green-400">Cargada</div>}
 
                                 </div>
@@ -129,9 +139,9 @@ function ModalEditSong({ isOpen, onClose,id_song}){
                           <div className="flex flex-col">
                                 <h2 className="text-slate-400 text-md">Buscar Album: </h2>
                                 <input ref={refInputBusqueda} onKeyDown={hadleKeyPress} type="text" placeholder="Ingresa el nombre del album que deseas buscar" className="mt-2 p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950" />
-                               {/*  {artistValueSearch.name == null &&
-                                <div className="text-red-600">Debes escribir el nombre del album </div>
-                                } */}
+                                {messageAlbumInfo &&
+                                <div className="text-red-600">Debes seleccionar un álbum</div>
+                                }
                                 <div>                            
                                     <AlbumResultSearchList setAlbumSelect={setAlbumSelect} album_name={albumValueSearch}/>
                                 </div>
@@ -140,7 +150,7 @@ function ModalEditSong({ isOpen, onClose,id_song}){
                                Confirmar modificación
                         </button>
                         {uploadSucces &&
-                        <div className="text-sm font-bold mx-auto text-lime-700">
+                        <div className="text-sm font-bold mx-auto text-lime-400">
                             Canción modificada con éxito
                         </div>
                         }

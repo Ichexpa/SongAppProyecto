@@ -25,7 +25,7 @@ export default function PlayListItem({id_playlist,isPublic,nombre,descripcion,li
             </div>
             <div className="mt-2">
                 <h1>{nombre}</h1>
-                <p className="text-sm text-slate-400">{descripcion}</p>
+                <p className="text-sm text-slate-400 truncate">{descripcion}</p>
             </div>
         </div>
 

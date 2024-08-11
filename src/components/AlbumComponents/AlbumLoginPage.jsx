@@ -3,7 +3,7 @@ import userSpeakIcon from "../../assets/userSpeakIcon.svg"
 import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 function AlbumLoginPage({infoAlbum}){
-    const [{data :dataArtist, isLoading :loadingArtist, isError : errorArtist},fetchArtist] = useFetch(`https://sandbox.academiadevelopers.com/harmonyhub/artists/${infoAlbum.artist}/`);
+    const [{data :dataArtist, isLoading :loadingArtist, isError : errorArtist},fetchArtist] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/artists/${infoAlbum.artist}/`);
     useEffect(()=>fetchArtist(),[])    
     return(
         <div className="p-3 w-52 h-52 relative">

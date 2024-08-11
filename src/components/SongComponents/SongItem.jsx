@@ -9,16 +9,13 @@ function SongItem({song_id,nombre,album,file_song,isMainPage=true,id_owner}){
     const [isDeleted, setIsDeleted]  = useState(false)
     const [playingButton,setPlayingButton] = useState(false)
     const [{data , isLoading, isError},doFetch] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/albums/${album}/`)
-    let hasID = false
-    if(album){
-        hasID
-        console.log("Album id", album)        
+    
+    if(album){  
         useEffect(()=>{
             doFetch()
         },[])
 
     }
-    console.log(isDeleted)
     return(
         (!isDeleted &&
         <div className="bg-gray-800 flex flex-col rounded-lg">

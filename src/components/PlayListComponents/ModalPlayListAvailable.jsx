@@ -4,6 +4,7 @@ import useFetch from "../../hooks/useFetch";
 const ModalPlayListAvailable = ({ isOpenModal, onClose , song_id}) => {
     const token  = localStorage.getItem("authToken")
     const [{data: dataPlayListUpdate , isLoading , isError},doFetch]  = useFetch()
+    const [uploadSucces,setUploadSucces]  = useFetch()
     const [refreshList,setRefreshList] = useState(1)
     const refinputSelects = useRef({})
     function getIdPlayListSelected(inputsSelect){
@@ -17,7 +18,6 @@ const ModalPlayListAvailable = ({ isOpenModal, onClose , song_id}) => {
         return idArraySelected
     }
     function addToPlayListsHandler(){
-        console.log("idCancion " , song_id)
         const idArraySelected = getIdPlayListSelected(refinputSelects)
         const promesasPorResolver = idArraySelected.map((plaListId)=>{
             const bodyData = {
@@ -36,7 +36,9 @@ const ModalPlayListAvailable = ({ isOpenModal, onClose , song_id}) => {
             `${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/playlist-entries/`)            
         })
         Promise.all(promesasPorResolver).then(()=>{
-           setRefreshList((prev)=>prev+1)
+            setTimeout(()=>{                
+                setRefreshList((prev)=>prev+1)
+            },500)
         }).catch((e)=>{
             console.log("Se produjo un erorr",e)
         })
