@@ -2,18 +2,18 @@ import { Outlet } from "react-router-dom"
 import Logo from "../components/Utils/Logo.jsx";
 import SideBar from "../components/SideBar.jsx";
 import ProfileOptions from "../components/ProfileComponents/ProfileOptions.jsx";
-
+import { ProfilePhotoProvider } from "../contexts/ProfilePhotoContext.jsx";
 function Layout(){
     return(  
-          
+        <ProfilePhotoProvider>  
         <div className="w-screen min-h-screen text-white bg-gray-900">
             <header className="w-9/12 mx-auto">
                 <div className="flex flex-row justify-between items-center w-full">
                     <div className="p-2">
                         <Logo/>
                     </div>
-                    <div className="p-2">
-                        <ProfileOptions/>
+                    <div className="p-2">                        
+                            <ProfileOptions/>
                     </div>
                 </div>
             </header>
@@ -26,6 +26,7 @@ function Layout(){
                 </main>               
             </div>    
         </div>  
+        </ProfilePhotoProvider>
     )
 }
 export default Layout;

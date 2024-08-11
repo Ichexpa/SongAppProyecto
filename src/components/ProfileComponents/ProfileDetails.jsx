@@ -7,8 +7,9 @@ import useFetch from "../../hooks/useFetch.js"
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import LoadingSpinner from "../Utils/LoadingSpinner.jsx"
 import { useClickEditContext } from "../../contexts/StateEditingContext.jsx";
-
+import {useProfilePhotoContext} from "../../contexts/ProfilePhotoContext.jsx"
 function ProfileDetails(){
+    const {setProfilePhoto} = useProfilePhotoContext()
     const API_URL_BASE = `${import.meta.env.VITE_API_URL_SANDBOX}`
     const {isEditing,setIsEditing} = useClickEditContext()
     const [imageSrc, setImageSrc] = useState(null);
@@ -45,9 +46,9 @@ function ProfileDetails(){
                 Authorization: `Token ${token}`,
             },  
         },
-        `${API_URL_BASE}/users/profiles/profile_data/`)
+        `${API_URL_BASE}/users/profiles/profile_data/`)        
+        /* setProfilePhoto("Hola desde options profile") */
     },[])
-
     const getValueInput = () =>{
         const valorBio = refTextAreaBio.current.value == "Aun no se posee descripción..."?
                          null : refTextAreaBio.current.value
@@ -94,6 +95,11 @@ function ProfileDetails(){
             )
         }
     }
+    useEffect(()=>{
+        if(dataUpdate){            
+            setProfilePhoto(dataUpdate.image)
+        }
+    },[dataUpdate])
     return(
         <div className="relative p-2 w-full flex flex-col gap-5">
             {dataUser &&
