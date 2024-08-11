@@ -19,8 +19,8 @@ export default function AlbumDetails(){
             <>
                 <div className="bg-gradient-to-r from-slate-600 to-slate-950 w-full p-3 rounded-t-lg">
                     <div className="relative p-1">
-                        <div className="h-52 w-52">
-                            <img className="w-full h-full" src={dataCanciones.cover?? albumMusicIcon} alt={dataCanciones.title} />
+                        <div className="h-52 w-52 ">
+                            <img className="w-full h-full rounded-lg" src={dataCanciones.cover?? albumMusicIcon} alt={dataCanciones.title} />
                         </div>
                         <div>
                             <div className="w-16 mt-2">

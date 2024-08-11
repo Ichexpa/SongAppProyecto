@@ -4,16 +4,14 @@ import lockIcon from "../../assets/lockIcon.svg"
 import unlockICon from "../../assets/unlockIcon.svg"
 import useFetch from "../../hooks/useFetch";
 
-const ModalPlayListUpdate = ({ isOpen, onClose}) => {
+const ModalPlayListCreate= ({ isOpen, onClose}) => {
   if (!isOpen) return null;
   const token = localStorage.getItem("authToken")
   const [{data:dataUpdate,isLoading,isError},doUpdatePlayList] = useFetch(
       `${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/playlists/`)
   const [isPublic,setisPublic]  = useState(true)  
-  const [showMessageInfo,setShowMessageInfo] = useState({
-    nameRequiredMessage : false,
-    playListAdded : false, 
-  })
+  const [showMessageSuccess,setShowMessageSuccess] = useState(false)
+  const [showMessageError,setShowMessageError] = useState(false)
   let refInputNombre = useRef()
   let refInputDescripcion = useRef()
 
@@ -34,21 +32,18 @@ const ModalPlayListUpdate = ({ isOpen, onClose}) => {
       })
     }
     else{
-      setShowMessageInfo({
-      playListAdded : !showMessageInfo.playListAdded ?? false,
-      nameRequiredMessage: true
-      })      
+      setShowMessageError(true)
+      setTimeout(()=>{
+        setShowMessageError(false)
+      },3500)
     }
   }
   useEffect(()=>{
     if(dataUpdate){
-      console.log("INFO SUBIDA" , dataUpdate)
-      setShowMessageInfo({
-      nameRequiredMessage : false,
-      playListAdded : true, 
-      })
-      refInputNombre.current.value = ''
-      refInputDescripcion.current.value = ''
+      setShowMessageSuccess(true)
+      setTimeout(()=>{
+        setShowMessageSuccess(false)
+      },4500)
     }    
   },[dataUpdate])
   
@@ -65,7 +60,7 @@ const ModalPlayListUpdate = ({ isOpen, onClose}) => {
                           <div className="mt-2 overflow-hidden">
                             <input placeholder="PlayList" className="p-2 border-none focus:border-none focus:outline-none rounded-lg none bg-cyan-950"  ref={refInputNombre} type="text" />
                           </div>
-                          {showMessageInfo.nameRequiredMessage &&
+                          {showMessageError &&
                           <div className="text-sm text-red-500 mt-2 mb-2">
                             Debes agregarle un nombre a la lista
                           </div>
@@ -88,7 +83,7 @@ const ModalPlayListUpdate = ({ isOpen, onClose}) => {
                 <button onClick={handleSubmitPlayList}  className="transition ease-in-out delay-250 bg-teal-900 hover:bg-teal-950 font-semibold hover:text-white py-2 px-4 border border-cyan-950 hover:border-transparent rounded">
                         Agregar PlayList
                 </button>
-                {showMessageInfo.playListAdded &&
+                {showMessageSuccess &&
                   <div className="text-sm font-bold mx-auto text-lime-700">
                     PlayList Agregada con exito
                   </div>
@@ -106,4 +101,4 @@ const ModalPlayListUpdate = ({ isOpen, onClose}) => {
   );
 };
 
-export default ModalPlayListUpdate;
+export default ModalPlayListCreate;

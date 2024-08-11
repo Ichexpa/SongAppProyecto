@@ -4,9 +4,9 @@ import LoadingSpinner from "../Utils/LoadingSpinner.jsx"
 import { useEffect, useState } from "react"
 import Paginador from "../Utils/Paginador.jsx"
 import { useSearchParams,useNavigate } from "react-router-dom"
-import privateIcon from "../../assets/privateIcon.svg"
 import toggleOn from "../../assets/toggleOnIcon.svg"
 import toggleOff from "../../assets/toggleOffIcon.svg"
+
 export default function PlayList(){
     //Despues verificar playlist privadas y publicas
     const idUser = localStorage.getItem("id_user")
@@ -37,16 +37,16 @@ export default function PlayList(){
     return(
     <>
         <div className="flex flex-row h-10 justify-end items-center mb-4">
-            <div className="text-slate-300 text-xl mr-4">
+            <div className="text-slate-400 text-md mr-4">
                 Mostrar mis PlayList: 
             </div>
             <button onClick={toggleHandler}>
-            <img className="h-14 w-12" src={toggleStatus? toggleOn : toggleOff} alt="" />
+            <img className="h-10 w-10" src={toggleStatus? toggleOn : toggleOff} alt="" />
             </button>
         </div>
-        <div className="flex flex-row flex-nowrap w-full">
+        <div className="grid grid-cols-4 gap-4 w-full">
             {dataPlayList &&
-                dataPlayList.results.filter((playList)=>(playList.entries.length > 0 && (playList.public || playList.owner == idUser))).
+                dataPlayList.results.filter((playList)=>(playList.public || playList.owner == idUser)).
                 map((playList)=>{
                     return(                            
                         <PlayListItem key={playList.id}

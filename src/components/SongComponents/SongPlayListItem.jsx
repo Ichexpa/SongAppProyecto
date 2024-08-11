@@ -1,12 +1,17 @@
 import useFetch from "../../hooks/useFetch"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import musicIcon from "../../assets/musicIcon.svg"
+import trashIcon from "../../assets/trashIcon.svg"
+import ModalConfirmDelete from "../Utils/ModalConfirmDelete"
 
-function SongPlayListItem({id_song,id_playListItem,selectSong}){
+function SongPlayListItem({id_song,id_playListItem,selectSong,isOwner,deletedItemPlayList}){
     const API_URL_BASE = import.meta.env.VITE_API_URL_SANDBOX
-    let albumAsignado;
+    const token = localStorage.getItem("authToken")
     const [{data:dataSong , isLoading : isLoadingSong, isError: isErrorSong},doFetchSong] = useFetch(`${API_URL_BASE}/harmonyhub/songs/${id_song}/`)
     const [{data:dataAlbum , isLoading : isLoadingAlbum, isError: isErrorAlbum},doFetchAlbum] = useFetch()
+    const [{data:dataDelete , isLoading : isLoadingDelete, isError: isErrorDelete},doFetchDeleteItem] = useFetch()
+    const [confirmDelete,setConfirmDelete] = useState(false)
+    const [showModalConfirm,setShowModalConfirm] = useState(false)
     useEffect(()=>{
         doFetchSong()
     },[])
@@ -16,9 +21,6 @@ function SongPlayListItem({id_song,id_playListItem,selectSong}){
                 doFetchAlbum({},`${API_URL_BASE}/harmonyhub/albums/${dataSong.album}/`)
                 
             }
-            else{
-                albumAsignado = false 
-            }          
         }
     },[dataSong])
     function formatSecondsToMinutes(seconds) {
@@ -30,8 +32,24 @@ function SongPlayListItem({id_song,id_playListItem,selectSong}){
     function dataItemPlaylist(dataSong){
         selectSong(dataSong)
     }
-    function removeSongPlayList(id_playListItem){
-        console.log("ID DE LA PLAYLIST ", id_playListItem)
+    function removeSongPlayList(e,id_playListItem){
+        e.stopPropagation()
+        setShowModalConfirm(true)
+    }
+    useEffect(()=>{
+        console.log("Confirm delet valor" + confirmDelete)
+        if(confirmDelete){
+            doFetchDeleteItem({
+            method : "DELETE",
+            headers : {
+                Authorization : `Token ${token}`
+            }
+            },`${API_URL_BASE}/harmonyhub/playlist-entries/${id_playListItem}/`)
+        }
+
+    },[confirmDelete])
+    if(!isLoadingDelete && !isErrorAlbum){
+        deletedItemPlayList((prev)=>prev+1)
     }
     return(
         <div>
@@ -42,16 +60,20 @@ function SongPlayListItem({id_song,id_playListItem,selectSong}){
                     <p className="text-slate-200 font-bold">{dataSong.title}</p>
                     <p className="text-slate-500">{dataAlbum ? dataAlbum.title : "Desconocido"}</p>
                 </div>
-                <div className="absolute top-0 right-0 text-sm text-slate-300 p-3    ">
+                {/* <div className="absolute top-0 right-0 text-sm text-slate-300 p-3    ">
                     Duracion : {formatSecondsToMinutes(dataSong.duration)}
-                </div>
-                {/* Estilizar DPS */}
-                <div onClick={()=>removeSongPlayList(id_playListItem)} className="absolute bottom-0 right-0 text-sm text-slate-300 p-3    ">
-                    X
-                </div>
+
+                </div> */}
+                {isOwner &&
+                <button onClick={(e)=>removeSongPlayList(e,id_playListItem)} className="absolute top-auto right-0 text-sm text-slate-300 p-3 h-14 w-14">
+                     <img src={trashIcon} alt="quitarDePlayList" />                       
+                </button>
+                }
             </div>
             }
-            {(isLoadingSong && isLoadingAlbum) && <h1>Cargando...</h1> }
+            {(isLoadingSong && isLoadingAlbum) && <h1>Cargando...</h1> }   
+            <ModalConfirmDelete isOpen={showModalConfirm} onClose={setShowModalConfirm}
+                 tituloEliminacion={"Quitar canción de la PlayList?"} actionSelected={setConfirmDelete}/>         
         </div>
     )
 }

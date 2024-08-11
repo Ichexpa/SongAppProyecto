@@ -63,11 +63,11 @@ const Router = createBrowserRouter([
             element: <AlbumDetails />
           }
         ]
-      },
+      },/* 
       {
         path: "/artistas",
         element: <ArtistasList />
-      },
+      }, */
       {
         path: "/canciones",
         element: <ListSongs/>

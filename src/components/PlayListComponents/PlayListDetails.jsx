@@ -4,42 +4,58 @@ import { useEffect,useState } from "react"
 import musicIcon from "../../assets/musicIcon.svg"
 import { useParams } from "react-router-dom"
 import { useRef } from "react"
+import DropDownPlayList from "./DropdownPlayList"
+import { data } from "autoprefixer"
 function PlayListDetails(){    
     const params = useParams()
     const idPlayList = params.idPlayList
-    /* Necesito hacer la peticion en playList entries para podes eliminar la cancion desde esta pantalla a traves de su ID */
+    const idUser =  localStorage.getItem("id_user")
+    const token = localStorage.getItem("authToken")
     const [{data:dataPlayListEntries , isLoading: isLoadingPlayListEntries, isError: isErrorPlayListEntries},doFetchPlayListEntries] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/playlist-entries/?playlist=${idPlayList}`)
     const [{data:dataPlayList , isLoading: isLoadingPlayList, isError : isErrorPlayList},doFetchPlayList] = useFetch(`${import.meta.env.VITE_API_URL_SANDBOX}/harmonyhub/playlists/${idPlayList}`)
+    const [{data:dataUser , isLoading: isLoadingUser, isError : isErrorUser},doFetchUser] = useFetch()
     const [selectSong,setSelectSong] = useState()
     const [songURL,setSongURL] = useState()
     const [coverImg,setCoverImg] = useState()
+    const [refreshComponent, setRefreshComponent] = useState(0)
+    const [refreshPlayListData,setRefreshPlayListData] = useState(0)
     const audioRef = useRef()
     function setValuesCoverAndSong(data){       
        const song = data[0].song_file
        const coverImg = data[1] ? (data[1].cover?? musicIcon) : musicIcon 
-       console.log("Cancion " + song  + "\n Album img " + coverImg)
        setSongURL(song)
        setCoverImg(coverImg)
-    }
+    }    
     useEffect(()=>{
         doFetchPlayListEntries()
-        doFetchPlayList()
-    },[])
+    },[refreshComponent]) 
     useEffect(()=>{
-        console.log("Desde la principal valores traidos" , selectSong)
+        doFetchPlayList()
+    },[refreshPlayListData])
+    useEffect(()=>{
         if(selectSong){            
             setValuesCoverAndSong(selectSong)
         }
     },[selectSong])
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.load(); // Recargar la fuente de audio
-            audioRef.current.play(); // Iniciar la reproducción automáticamente
+            audioRef.current.load();
+            audioRef.current.play(); 
         }
     }, [songURL]);
+    useEffect(()=>{
+        if(dataPlayList){            
+            doFetchUser({
+                method: "GET",
+                headers: {
+                    Authorization: `Token ${token}`,
+                },  
+            },`${import.meta.env.VITE_API_URL_SANDBOX}/users/profiles/${dataPlayList.owner}`)
+            }
+    },[dataPlayList])
     return(
             <div className="flex flex-row w-full rounded-xl">
-                <div className="flex flex-col w-3/5">
+                <div className="flex flex-col w-7/12">
                     <div className="h-96">
                         <img className = "w-full h-full object-cover " src={coverImg?? musicIcon} alt="" />
                     </div>       
@@ -49,20 +65,27 @@ function PlayListDetails(){
                     </audio>
                     }
                 </div>
-                <div className="flex flex-col w-2/5 overflow-auto">
-                    <div className="p-3 bg-gray-800 rounded-r-xl">
+                {(dataPlayList && dataUser) &&
+                <div className="flex flex-col w-5/12 overflow-auto">
+                    <div className="relative p-3 bg-gray-800 rounded-tr-lg">
                         <p className="text-xl font-bold p-1">{dataPlayList ? dataPlayList.name : "Cargando"}</p>
-                        <p className="p-1 text-slate-400 text-sm">Nombre Autor</p>
+                        <p className="p-1 text-slate-400 text-sm">{isLoadingUser? "Cargando..." :  (dataUser ? dataUser.username : "Desconocido")}</p>
+                        { dataPlayList.owner == idUser &&
+                        <div className="absolute top-2 right-2 p-2">
+                            <DropDownPlayList id_playList={dataPlayList.id} refreshMainComponent={setRefreshPlayListData}/>
+                        </div>}
                     </div>
                     <div className="bg-gray-950 flex-1 overflow-auto">
                         <div className="flex flex-col h-80 overflow-auto">
-                            {dataPlayListEntries &&
+                            {(dataPlayListEntries && dataPlayList) &&
                             dataPlayListEntries.results.map((playListItem)=>{
                                 return(
                                     <SongPlayListItem key={playListItem.id}
                                          id_playListItem={playListItem.id}
                                          id_song={playListItem.song}
                                          selectSong = {setSelectSong}
+                                         isOwner = {dataPlayList.owner == idUser}
+                                         deletedItemPlayList = {setRefreshComponent}
                                           />
                                 )
                             })
@@ -70,6 +93,7 @@ function PlayListDetails(){
                         </div>
                     </div>    
                 </div>
+                }
            </div>
            )
 }
