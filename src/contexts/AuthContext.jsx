@@ -53,7 +53,7 @@ function AuthProvider({children}){
         logout: () =>{
             dispatch({ type: ACTION.LOGOUT })
             localStorage.removeItem("authToken")
-            localStorage.removeItem("idUser")
+            localStorage.removeItem("id_user")
         }
     };
 
