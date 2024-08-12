@@ -2,7 +2,7 @@
 # Introducción:
 ## Proyecto SongApp CevlaRythm
 
-CevlaRythm es un proyecto desarrollado con React que implementa un CRUD (Create, Read, Update, Delete) de la API brindada por CIMNEIBER, documentada en [SWAGGER](#https://sandbox.academiadevelopers.com/docs/). Proporciona una interfaz intuitiva y fácil de usar para que los usuarios puedan realizar y administrar sus reservas de servicios de manera eficiente.
+CevlaRythm es un proyecto desarrollado con React que implementa un CRUD (Create, Read, Update, Delete) de la API brindada por CIMNEIBER, documentada en [SWAGGER](#https://sandbox.academiadevelopers.com/docs/). Proporciona una interfaz intuitiva y fácil de usar para que los usuarios puedan crear y administrar sus canciones y playlists.
 
 ## Enlace de la aplicación:
 
