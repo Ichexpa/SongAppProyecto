@@ -6,7 +6,7 @@ CevlaRythm es un proyecto desarrollado con React que implementa un CRUD (Create,
 
 ## Enlace de la aplicación:
 
-* [CevlaRythm](https://66b93c9904f2f5c2bc435c2a--cevlarythm.netlify.app/)
+* [CevlaRythm](https://cevlarythm.netlify.app/))
 
 ## Tecnologias Útilizadas:
 
