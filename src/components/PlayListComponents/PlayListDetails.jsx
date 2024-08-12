@@ -93,8 +93,11 @@ function PlayListDetails(){
                         
                     </div>
                     <div className="bg-gray-950 flex-1 overflow-auto">
-                        <div className="flex flex-col h-80 overflow-auto">
-                            {(dataPlayListEntries && dataPlayList) &&
+                        <div className="relative flex flex-col h-80 overflow-auto">
+                            {dataPlayListEntries && dataPlayListEntries.results.length == 0 &&
+                             <h1 className="my-auto mx-auto text-slate-400">Esta PlayList no posee canciones</h1>
+                            }
+                            {dataPlayListEntries && dataPlayListEntries.results.length > 0 &&
                             dataPlayListEntries.results.map((playListItem)=>{
                                 return(
                                     <SongPlayListItem key={playListItem.id}
@@ -114,7 +117,7 @@ function PlayListDetails(){
             <div className="flex flex-col w-full bg-gray-800 rounded-b-lg p-3">
                 <h1 className="font-bold text-md text-white">Descripción</h1>
                 {dataPlayList && 
-                    <p className ="text-sm ml-2 p-2" >{dataPlayList.description}</p>
+                    <p className ="text-sm ml-2 p-2" >{dataPlayList.description ?? "Sin descripción..."}</p>
                 }
                 {isLoadingPlayList &&
                  <p className ="text-sm ml-2 p-2" >Cargando...</p>}    
