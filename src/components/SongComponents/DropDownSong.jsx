@@ -84,7 +84,7 @@ function DropdownSong({song_id,id_owner,is_deleted}) {
         <ModalPlayListAvailable song_id={song_id} isOpenModal={openPlayListAvailables} onClose={setOpenPlayListAvailables}/>
       }
       {isOpenDelete &&
-        <ModalConfirmDelete isOpen = {isOpenDelete} onClose={setIsOpenDelete} tituloEliminacion = {"Esta seguro que deseas eliminar esta canción"} actionSelected = {setConfirmDelete} />
+        <ModalConfirmDelete isOpen = {isOpenDelete} onClose={setIsOpenDelete} tituloEliminacion = {"Esta seguro que deseas eliminar esta canción?"} actionSelected = {setConfirmDelete} />
       } 
       {isOpenUpdate &&
         <ModalEditSong isOpen={isOpenUpdate} onClose={setIsOpenUpdate} id_song={song_id} />

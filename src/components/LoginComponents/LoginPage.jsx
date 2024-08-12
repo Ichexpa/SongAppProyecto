@@ -20,7 +20,7 @@ function LoginPage(){
                         <Logo/>
                     </div>
                     <div className="my-auto">
-                        <h1 className="tracking-wider w-1/2 text-slate-300 ml-7 text-3xl font-semibold ">Ingresa para escuchar los siguientes temas gratis</h1>
+                        <h1 className="tracking-wider w-1/2 text-slate-300 ml-7 text-3xl font-semibold ">Ingresa para escuchar las siguientes álbumes gratis</h1>
                         
                         {loadingAlbum &&
                         <div className="relative mt-16 p-4 w-full flex justify-center">
@@ -38,9 +38,7 @@ function LoginPage(){
                                     ))  
                                 }
                         </div>}
-                        {
-                         errorAlbum && <div>Hola</div>
-                        }                          
+                         
                     </div>
                     
                 </div>
