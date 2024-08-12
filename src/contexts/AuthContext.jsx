@@ -1,5 +1,4 @@
 import { createContext, useReducer } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 const AuthContext = createContext({
                                     state: {},
@@ -38,17 +37,12 @@ function AuthProvider({children}){
        id_user : localStorage.getItem("id_user") 
     })
     
-   /*  const navigate = useNavigate();
-    const location = useLocation(); */
 
     const actions = {
         login: (token,id_user) =>{
             dispatch({ type: ACTION.LOGIN, payload:{token, id_user} })
             localStorage.setItem("authToken",token)
             localStorage.setItem("id_user",id_user)
-            /* const origin = location.state?.from?.pathname || "/";
-            console.log(origin)
-            navigate(origin); */
         } ,
         logout: () =>{
             dispatch({ type: ACTION.LOGOUT })
@@ -64,7 +58,6 @@ function AuthProvider({children}){
 }
 function useAuth(type) {
     const context = useContext(AuthContext);
-    console.log(context);
     if (context === undefined) {
         throw new Error("useAuth must be used within an AuthProvider");
     }
